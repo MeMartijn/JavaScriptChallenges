@@ -58,6 +58,71 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+    'use strict';  // enable strict mode
+
+    // create an object with the keyboard character as the key, with the corresponding element and audio element as value.
+    var dataAttributes = document.querySelectorAll("[data-key]");
+    var identifierObject = {};
+    for (let i = 0; i < dataAttributes.length / 2; i++){
+        // might want to check for corresponding data attributes, but I've decided not to.
+        // this solution is based of the corresponding places of the data-key elements in the HTML tree.
+        // if the positions of the elements happened to switch up, this solution will play the wrong sounds.
+        identifierObject[dataAttributes[i].childNodes[1].innerHTML] = [dataAttributes[i], dataAttributes[dataAttributes.length/2+i]];
+    }
+
+    // function to play the sounds and add/remove the class.
+    var player = function(keypress) {
+        var target = identifierObject[keypress];
+        target[0].classList.add('playing');
+        target[1].play();
+        console.log(target[1].duration);
+        setTimeout(function(){target[0].classList.remove('playing');}, target[1].duration * 1000); // duration in seconds, multiply by 1000 to convert to ms.
+    };
+
+    // listen for keyboard presses.
+    document.addEventListener('keydown', function(event) {
+        const keyName = event.key; // set keypress to constant keyName.
+
+        switch (keyName){
+            case 'A':
+            case 'a':
+                player("A");
+                break;
+            case 'S':
+            case 's':
+                player("S");
+                break;
+            case 'D':
+            case 'd':
+                player("D");
+                break;
+            case 'F':
+            case 'f':
+                player("F");
+                break;
+            case 'G':
+            case 'g':
+                player("G");
+                break;
+            case 'H':
+            case 'h':
+                player("H");
+                break;
+            case 'J':
+            case 'j':
+                player("J");
+                break;
+            case 'K':
+            case 'k':
+                player("K");
+                break;
+            case 'L':
+            case 'l':
+                player("L");
+                break;
+        }
+    })
+
 
 </script>
 
