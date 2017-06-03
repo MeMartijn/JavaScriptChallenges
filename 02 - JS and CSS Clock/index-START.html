@@ -78,7 +78,7 @@
 
       function setTime (){
           const d = new Date();   // update the time on each second.
-          console.log("runned");
+
           secEl.style.transform = `rotate(${90 + (d.getSeconds() * 6)}deg)`;  // 360deg/60 sec = 6 deg/sec
           minEl.style.transform = `rotate(${90 + (d.getMinutes() * 6)}deg)`;
           hourEl.style.transform = `rotate(${90 + (d.getHours() * 30)}deg)`;  // 360deg/12 hours = 30 deg/hour
