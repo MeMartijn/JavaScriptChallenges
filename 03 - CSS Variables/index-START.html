@@ -21,30 +21,57 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    :root {
+        --spacing: 0px;
+        --blur: 0px;
+        --base: #fff;
+    }
+    img {
+        padding: var(--spacing);
+        filter: blur(var(--blur));
+        background-color: var(--base);
+    }
+    .hl {
+        color: var(--base);
+    }
 
     /*
       misc styles, nothing to do with CSS variables
     */
 
     body {
-      text-align: center;
-      background: #193549;
-      color: white;
-      font-family: 'helvetica neue', sans-serif;
-      font-weight: 100;
-      font-size: 50px;
+        text-align: center;
+        background: #193549;
+        color: white;
+        font-family: 'helvetica neue', sans-serif;
+        font-weight: 100;
+        font-size: 50px;
     }
 
     .controls {
-      margin-bottom: 50px;
+        margin-bottom: 50px;
     }
 
     input {
-      width:100px;
+        width:100px;
     }
   </style>
 
   <script>
+      "use strict";
+
+      const inputElements = document.querySelectorAll("input");
+      inputElements.forEach(function(el){
+         el.addEventListener('input', function(e) {
+             const type = this.previousElementSibling.htmlFor;
+             if (this.value.length !== 7) {    // Select non-hexcodes to add pixels.
+                 document.documentElement.style.setProperty(`--${type}`, this.value + 'px');
+             } else {
+                 document.documentElement.style.setProperty(`--${type}`, this.value);
+             }
+         })
+      });
+
   </script>
 
 </body>
