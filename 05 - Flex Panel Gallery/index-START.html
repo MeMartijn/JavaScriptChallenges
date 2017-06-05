@@ -24,6 +24,7 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -41,6 +42,11 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      max-height: 100vh;
     }
 
 
@@ -67,7 +73,25 @@
     }
 
     .panel.open {
-      font-size:40px;
+      font-size:2em;
+      flex: 2;
+    }
+    .panel p:nth-child(1), .panel p:nth-child(3) {
+      position: relative;
+      transition: all 0.5s ease;
+      transition-delay: 0.5s;
+    }
+    .panel p:nth-child(1) {
+      padding-bottom: 110vh;
+    }
+    .panel p:nth-child(3) {
+      padding-top: 110vh;
+    }
+    .panel.open p:nth-child(1) {
+      padding-bottom: 15vh;
+    }
+    .panel.open p:nth-child(3) {
+      padding-top: 15vh;
     }
 
   </style>
@@ -79,7 +103,7 @@
       <p>Let's</p>
       <p>Dance</p>
     </div>
-    <div class="panel panel2">
+    <div class="panel panel2 open">
       <p>Give</p>
       <p>Take</p>
       <p>Receive</p>
@@ -102,7 +126,20 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll(".panel");
 
+    function openPanel(){
+        const openPanels = document.querySelectorAll(".open");  // Delete all instances of open panels.
+        openPanels.forEach(function(panel){
+            panel.classList.remove("open");
+        });
+
+        this.classList.add("open");
+    }
+
+    panels.forEach(function(panel){
+        panel.addEventListener("click", openPanel);
+    })
   </script>
 
 
