@@ -8,15 +8,53 @@
 <body>
 
   <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
+    <input type="text" class="search" placeholder="City or state">
     <ul class="suggestions">
       <li>Filter for a city</li>
       <li>or a state</li>
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  // Fetch information.
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const cities = new Set,
+      states = new Set;
+  let searchResults = [];  // Predefining searchresults variable to get it outside of then function scope.
+  fetch(endpoint).then(function(response){
+      return response.json();
+  }).then(function(data){
+      const jsonData = data;
+      for (i = 0; i < jsonData.length; i++){
+          cities.add(jsonData[i].city.toLowerCase());   // Preset all values to lowercase.
+          states.add(jsonData[i]["state"].toLowerCase());
+      }
+      searchResults = [...cities].concat([...states]);
+  });
 
+  // Search functionality.
+  const parentElement = document.querySelector(".suggestions");
+  const input = document.querySelector(".search");
+  input.addEventListener("input", autofilter);
+  function createSuggestions(searchResults) {
+      searchResults.forEach(function(result){
+          const suggestion = document.createElement("li");
+          const suggestionText = document.createTextNode(result);
+          suggestion.appendChild(suggestionText);
+          parentElement.appendChild(suggestion);
+      })
+  }
+  function autofilter(){
+      parentElement.innerHTML = "";
+      const searchString = this.value.toLowerCase();
+      const matches = searchResults.filter(function(place){
+          return place.includes(searchString);
+      });
+      if (matches.length > 5) {
+          createSuggestions(matches.slice(0,5));
+      } else {
+          createSuggestions(matches);
+      }
+  }
 </script>
   </body>
 </html>
